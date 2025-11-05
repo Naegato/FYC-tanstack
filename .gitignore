@@ -1,0 +1,21 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+count.txt
+.env
+.nitro
+.tanstack
+.wrangler
+.output
+.vinxi
+todos.json
+mcp-todos.json
+
+# IDE
+.idea
+.vscode
+
+git rm --cached .idea/FYC_tanstack.iml && git rm --cached .idea/copilot.data.migration.agent.xml && git rm --cached .idea/inspectionProfiles/Project_Default.xml && git rm --cached .idea/modules.xml && git rm --cached .idea/php.xml && git rm --cached .idea/prettier.xml && git rm --cached .idea/vcs.xml
+.idea/workspace.xml
