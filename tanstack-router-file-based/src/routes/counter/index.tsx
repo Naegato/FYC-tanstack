@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from '../../assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useBlocker } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/counter/')({
   component: App,
@@ -10,6 +10,17 @@ export const Route = createFileRoute('/counter/')({
 
 function App() {
   const [count, setCount] = useState(0)
+
+  useBlocker({
+    shouldBlockFn: () => {
+      if (count === 0) {
+        return false;
+      }
+
+      const shouldLeave = confirm('Voulez vous vraiment quitté la page ?');
+      return !shouldLeave;
+    }
+  })
 
   return (
     <>
