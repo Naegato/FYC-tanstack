@@ -160,6 +160,15 @@ En d’autres termes, là où TanStack Router est une brique isolée, TanStack S
 - des conventions pour organiser routes, loaders, actions,
 - une base solide pour développer rapidement une application réelle.
 
+---
+
+### Precissions sur le cours
+- Dans ce cour nous utiliserons `pnpm` comme gestionnaire de paquet, si vous n'avez pas
+  `pnpm` installé, vous pouvez le faire via la commande `npm install -g pnpm`
+- le code source sera disponible sur le github.
+
+---
+
 ## Chapitre 1 – TanStack Router + Vite
 
 ### Création du projet :
@@ -176,6 +185,11 @@ Option:
 - Use rolldown-vite (Experimental): No
 - Install with pnpm and start now: Yes
 
+```shell
+    cd tanstack-router
+    pnpm install
+```
+
 #### Lancé le projet :
 
 ```shell
@@ -189,7 +203,8 @@ Option:
   pnpm add @tanstack/react-router-devtools
 ```
 
-#### Code Base Routing
+
+#### Code Base Routing  
 
 (Cette section est à titre informatif, nous utiliserons dans les prochains cours, uniquement
 le [File Based Routing](#file-based-routing))
@@ -220,7 +235,7 @@ On va ensuite créer une page home par défaut qui nous servira de point d'entr�
 
 ```shell
   mkdir -p src/components/home
-  touch src/components/home/index.tsx
+  touch src/components/home/client-layout.tsx
 ```
 
 ```tsx
@@ -316,7 +331,9 @@ nav {
 }
 ```
 
-#### File Based Routing
+---
+
+#### File Based Routing  
 
 Afin d'utiliser le File Based Routing, il est préférable d'installer le plugin vite qui simplifie la création des
 routes:
@@ -457,10 +474,10 @@ nav {
 }
 ```
 
-On crée notre home en créant un fichier `src/routes/index.tsx` et on y ajoute notre contenue:
+On crée notre home en créant un fichier `src/routes/client-layout.tsx` et on y ajoute notre contenue:
 
 ```shell
-  touch src/routes/index.tsx
+  touch src/routes/client-layout.tsx
 ```
 
 ```tsx
@@ -478,19 +495,19 @@ function RouteComponent() {
 ```
 
 On crée ensuite le dossier `src/routes/counter` puis on y déplace les fichiers `App.css` et `App.tsx`, on renomme
-`App.tsx` en `index.tsx`.
+`App.tsx` en `client-layout.tsx`.
 
 ```shell
   mkdir -p src/routes/counter
   mv src/App.css src/routes/counter
-  mv src/App.tsx src/routes/counter/index.tsx
+  mv src/App.tsx src/routes/counter/client-layout.tsx
 ```
 
 Et voilà ! tout fonctionne parfaitement et on peut… Vous avez sans doute remarqué qu'en bougeant les fichiers de cette
 manière, le plugin n'as pas pu ajouter la configuration nécessaire, il faut donc la rajoutée à la main.
 
 ```tsx
-// src/routes/counter/index.tsx
+// src/routes/counter/client-layout.tsx
 import { useState } from 'react'
 import reactLogo from '../../assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -686,7 +703,7 @@ si le compteur est supérieur à `1`. Pour ce faire, on utilise le hook `useBloc
 `shouldBlockFn` est une fonction qui retourne `true` quand on veut bloquer la navigation. 
 
 ```tsx
-// src/routes/counter/index.tsx
+// src/routes/counter/client-layout.tsx
 
 // ...
 import { createFileRoute, useBlocker } from '@tanstack/react-router'
@@ -727,3 +744,251 @@ function App() {
 - [Navigation Blocking](https://tanstack.com/router/latest/docs/framework/react/guide/navigation-blocking)
 
 ## Chapitre 2 – TanStack Start + Form
+
+### Installation :
+
+```shell
+  pnpm create @tanstack/start@latest
+```
+
+Options :
+
+- Nom du projet: `tanstack-start`
+- Voulez vous utiliser Tailwind CSS ? `Yes`
+- Linter: `ESLint`
+- Adapter de deployment: `Nitro`
+- Add-ons: `None`
+- Voulez-vous un exemple d'application ? : `None`
+
+```shell
+  cd tanstack-start
+  pnpm install
+  pnpm approve-builds # Autorisé tous les packets
+```
+
+### Lancement du projet
+
+```shell
+  pnpm dev
+```
+
+### Structure du projet
+
+Comme on peut le voir en lanceant le projet, Tanstack Start nous a généré une application de base avec une structure
+claire. La structure des dossiers est pensée pour séparer les différentes parties de l'application:
+
+- src/components/ : Composants réutilisables dans toute l'application.
+- src/routes/ : Définitions des routes de l'application.
+- src/data/ : Logique de gestion des données (Prisma, accès à la base de données).
+- public/ : Fichiers statiques accessibles publiquement.
+
+On retrouve également nos fichiers liés au routing dans `src/routes`, chaque fichier correspond à une route, ainsi que 
+notre `src/routeTree.gen.ts` généré automatiquement.
+
+### Reset du projet
+
+Maintenant que l'on a vu la structure de base, on peut nettoyer le projet pour repartir d'une base neutre.
+
+```shell
+  rm -rf src/components/*
+  rm -rf src/routes/*
+  rm -rf src/data/*
+  touch src/routes/__root.tsx 
+  touch src/routes/index.tsx
+```
+
+(Pensez à relancer le projet si un problème survient)
+
+### Routes de base
+
+Grâce à nos connaissances acquises dans le chapitre 1, on peut créer les routes de notre application.
+
+```shell
+  mkdir -p src/routes/admin
+  mkdir -p src/routes/\(app\)/courses/
+  rm src/routes/index.tsx
+  touch src/routes/\(app\)/index.tsx
+  touch src/routes/\(app\)/route.tsx
+  touch src/routes/\(app\)/login.tsx
+  touch src/routes/\(app\)/register.tsx
+  touch src/routes/\(app\)/courses/index.tsx
+  touch src/routes/\(app\)/courses/\$courseId.tsx
+  touch src/routes/admin/index.tsx
+  touch src/routes/admin/route.tsx
+```
+
+Les fichiers `route.tsx` permettent de définir des layouts pour les routes enfants. Cela permet de factoriser le code
+et d'avoir une structure claire. Pour le moment, remplaçons le contenu de la fonction `RouteComponent` par un simple `Outlet`.
+
+```tsx
+// src/routes/\(app\)/route.tsx
+// src/routes/admin/route.tsx
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+
+// ...
+function RouteComponent() {
+  return <Outlet />;
+}
+```
+
+### Composants
+
+Nous allons créer quelques composants de base pour notre application.
+
+```shell
+  touch src/components/layout.tsx
+  touch src/components/header.tsx
+  touch src/components/footer.tsx
+```
+
+```tsx
+// src/components/header.tsx
+import React from 'react';
+import { Link } from '@tanstack/react-router';
+
+export const Header: React.FC = () => {
+  return (
+    <header>
+      <nav>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/courses">Courses</Link></li>
+          <li><Link to="/login">Login</Link></li>
+          <li><Link to="/admin">Admin</Link></li>
+        </ul>
+      </nav>
+    </header>
+  );
+};
+```
+
+```tsx
+// src/components/footer.tsx
+import React from 'react';
+export const Footer: React.FC = () => {
+  return (
+    <footer>
+      <p>© 2025 My School Platform</p>
+    </footer>
+  );
+};
+```
+
+```tsx
+// src/components/layout.tsx
+import React from 'react';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
+
+export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <div>
+      <Header />
+      <main>{children}</main>
+      <Footer />
+    </div>
+  );
+};
+```
+
+On ajoute ensuite le `layout` dans le fichier `src/routes/(app)/route.tsx` et `src/routes/admin/route.tsx`;
+
+```tsx
+// src/routes/(app)/route.tsx
+
+import { Layout } from '@/components/layout'
+
+// ...
+
+function RouteComponent() {
+  return <Layout>
+    <Outlet />
+  </Layout>
+}
+```
+
+### Un peu de style !!
+
+Afin de rendre notre application plus agréable, nous allons ajouter un peu de style avec Shadcn UI et Tailwind CSS.
+
+```shell
+  pnpm dlx shadcn@latest init
+```
+
+Nous allons ensuite ajouter **tous*** les composants disponibles.
+
+```shell
+  pnpm dlx shadcn@latest add --all
+```
+\* Il est possible que certains composants ne soient pas compatibles avec Tanstack Start, dans ce cas, vous pouvez les
+  ignorer.  
+\** Nous faisons ceci parce que nous n'avons pas encore défini les besoins exacts en termes de composants UI. Dans 
+la réalité, il ne faut installer que les composants dont on a besoin.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+Nous allons créer un docker compose pour lancer une base de donnée `PostgreSQL` locale.
+
+```shell
+  touch docker-compose.yml
+```
+
+```yaml
+services:
+  db:
+    image: postgres:18.1
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql
+
+volumes:
+  db_data:
+```
+
+On change ensuite la variable d'environnement `DATABASE_URL` dans le fichier `.env.local`
+
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/mydb"
+```
+
+On s'assure que l'url est bien définie dans `prisma/schema.prisma`
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+---
+
+
+
+### RESSOURCES
+
+- Installation
+    - [Quick start](https://tanstack.com/start/latest/docs/framework/react/quick-start)
+    - Shadcn UI:
+      - [Installation](https://ui.shadcn.com/docs/installation/tanstack)
+      - [Initialization](https://ui.shadcn.com/docs/components-json)
