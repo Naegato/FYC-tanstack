@@ -1,0 +1,23 @@
+meta {
+  name: User
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{url}}/api/users
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "test@test.test",
+    "password": "123456Aa*"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

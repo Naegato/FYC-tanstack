@@ -1,9 +1,11 @@
+import { cn } from '@/lib/utils.ts'
 import { Slot } from '@radix-ui/react-slot'
 import { FC, ReactNode } from 'react'
 
 type TypographyProps = {
-  children: ReactNode,
+  children: ReactNode
   asChild?: boolean
+  className?: HTMLHeadElement['className']
 }
 
 type TypographyTableProps<T extends PropertyKey = string> = {
@@ -42,11 +44,11 @@ type TypographyComponent<T = TypographyKey> = FC<
 
 type TypographyComponentMapping<T = TypographyKey> = Record<
   TypographyKey,
-  (T extends 'table'
+  T extends 'table'
     ? FC<TypographyTableProps>
     : T extends 'list'
       ? FC<TypographyListProps>
-      : FC<TypographyProps>)
+      : FC<TypographyProps>
 >
 
 export const Typography: TypographyComponent = ({ type, ...props }) => {
@@ -66,7 +68,6 @@ export const Typography: TypographyComponent = ({ type, ...props }) => {
     muted: TypographyMuted,
   }
 
-
   if (type === 'table') {
     const Component = mapping[type] as FC<TypographyTableProps>
 
@@ -79,60 +80,110 @@ export const Typography: TypographyComponent = ({ type, ...props }) => {
   }
 
   const Component = mapping[type] as FC<TypographyProps>
-  return <Component {...props as TypographyProps} />
+  return <Component {...(props as TypographyProps)} />
 }
 
-const TypographyH1: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyH1: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'h1'
 
   return (
-    <Comp className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+    <Comp
+      className={cn(
+        'scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance',
+        className,
+      )}
+    >
       {children}
     </Comp>
   )
 }
 
-const TypographyH2: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyH2: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'h2'
 
   return (
-    <Comp className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+    <Comp
+      className={cn(
+        'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0',
+        className,
+      )}
+    >
       {children}
     </Comp>
   )
 }
 
-const TypographyH3: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyH3: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'h3'
 
   return (
-    <Comp className="scroll-m-20 text-2xl font-semibold tracking-tight">
+    <Comp
+      className={cn(
+        'scroll-m-20 text-2xl font-semibold tracking-tight',
+        className,
+      )}
+    >
       {children}
     </Comp>
   )
 }
 
-const TypographyH4: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyH4: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'h4'
 
   return (
-    <Comp className="scroll-m-20 text-xl font-semibold tracking-tight">
+    <Comp
+      className={cn(
+        'scroll-m-20 text-xl font-semibold tracking-tight',
+        className,
+      )}
+    >
       {children}
     </Comp>
   )
 }
 
-const TypographyP: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyP: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'p'
 
-  return <Comp className="leading-7 [&:not(:first-child)]:mt-6">{children}</Comp>
+  return (
+    <Comp className={cn('leading-7 [&:not(:first-child)]:mt-6', className)}>
+      {children}
+    </Comp>
+  )
 }
 
-const TypographyBlockquote: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyBlockquote: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'blockquote'
 
   return (
-    <Comp className="mt-6 border-l-2 pl-6 italic">{children}</Comp>
+    <Comp className={cn('mt-6 border-l-2 pl-6 italic', className)}>
+      {children}
+    </Comp>
   )
 }
 
@@ -187,36 +238,75 @@ const TypographyList: FC<TypographyListProps> = ({ children }) => {
   )
 }
 
-const TypographyInlineCode: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyInlineCode: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'code'
 
   return (
-    <Comp className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+    <Comp
+      className={cn(
+        'bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold',
+        className,
+      )}
+    >
       {children}
     </Comp>
   )
 }
 
-const TypographyLead: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyLead: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'p'
 
-  return <Comp className="text-muted-foreground text-xl">{children}</Comp>
+  return (
+    <Comp className={cn('text-muted-foreground text-xl', className)}>
+      {children}
+    </Comp>
+  )
 }
 
-const TypographyLarge: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyLarge: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'div'
 
-  return <Comp className="text-lg font-semibold">{children}</Comp>
+  return (
+    <Comp className={cn('text-lg font-semibold', className)}>{children}</Comp>
+  )
 }
 
-const TypographySmall: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographySmall: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'small'
 
-  return <Comp className="text-sm leading-none font-medium">{children}</Comp>
+  return (
+    <Comp className={cn('text-sm leading-none font-medium', className)}>
+      {children}
+    </Comp>
+  )
 }
 
-const TypographyMuted: FC<TypographyProps> = ({ children, asChild = false }) => {
+const TypographyMuted: FC<TypographyProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
   const Comp = asChild ? Slot : 'p'
 
-  return <Comp className="text-muted-foreground text-sm">{children}</Comp>
+  return (
+    <Comp className={cn('text-muted-foreground text-sm', className)}>
+      {children}
+    </Comp>
+  )
 }

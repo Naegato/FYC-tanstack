@@ -1,13 +1,15 @@
-import React from 'react';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
+import { Header } from '@/components/header'
+import { Footer } from '@/components/footer'
+import { FC, ReactNode } from 'react'
 
-export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const Layout: FC<{
+  children: ReactNode
+}> = ({ children }) => {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main>{children}</main>
+      <main className="flex flex-col h-auto">{children}</main>
       <Footer />
     </div>
-  );
-};
+  )
+}

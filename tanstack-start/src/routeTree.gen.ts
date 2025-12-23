@@ -13,9 +13,13 @@ import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as appIndexRouteImport } from './routes/(app)/index'
-import { Route as appRegisterRouteImport } from './routes/(app)/register'
+import { Route as ApiUsersRouteImport } from './routes/api/users'
+import { Route as ApiRegisterRouteImport } from './routes/api/register'
+import { Route as ApiLoginRouteImport } from './routes/api/login'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as appLoginRouteImport } from './routes/(app)/login'
 import { Route as appCoursesIndexRouteImport } from './routes/(app)/courses/index'
+import { Route as ApiUsersIdRouteImport } from './routes/api/users.$id'
 import { Route as appCoursesCourseIdRouteImport } from './routes/(app)/courses/$courseId'
 
 const AdminRouteRoute = AdminRouteRouteImport.update({
@@ -37,10 +41,25 @@ const appIndexRoute = appIndexRouteImport.update({
   path: '/',
   getParentRoute: () => appRouteRoute,
 } as any)
-const appRegisterRoute = appRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => appRouteRoute,
+const ApiUsersRoute = ApiUsersRouteImport.update({
+  id: '/api/users',
+  path: '/api/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRegisterRoute = ApiRegisterRouteImport.update({
+  id: '/api/register',
+  path: '/api/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLoginRoute = ApiLoginRouteImport.update({
+  id: '/api/login',
+  path: '/api/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const appLoginRoute = appLoginRouteImport.update({
   id: '/login',
@@ -52,6 +71,11 @@ const appCoursesIndexRoute = appCoursesIndexRouteImport.update({
   path: '/courses/',
   getParentRoute: () => appRouteRoute,
 } as any)
+const ApiUsersIdRoute = ApiUsersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
 const appCoursesCourseIdRoute = appCoursesCourseIdRouteImport.update({
   id: '/courses/$courseId',
   path: '/courses/$courseId',
@@ -61,18 +85,26 @@ const appCoursesCourseIdRoute = appCoursesCourseIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/login': typeof appLoginRoute
-  '/register': typeof appRegisterRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/api/login': typeof ApiLoginRoute
+  '/api/register': typeof ApiRegisterRoute
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/': typeof appIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/courses/$courseId': typeof appCoursesCourseIdRoute
+  '/api/users/$id': typeof ApiUsersIdRoute
   '/courses': typeof appCoursesIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof appLoginRoute
-  '/register': typeof appRegisterRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/api/login': typeof ApiLoginRoute
+  '/api/register': typeof ApiRegisterRoute
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/': typeof appIndexRoute
   '/admin': typeof AdminIndexRoute
   '/courses/$courseId': typeof appCoursesCourseIdRoute
+  '/api/users/$id': typeof ApiUsersIdRoute
   '/courses': typeof appCoursesIndexRoute
 }
 export interface FileRoutesById {
@@ -80,10 +112,14 @@ export interface FileRoutesById {
   '/(app)': typeof appRouteRouteWithChildren
   '/admin': typeof AdminRouteRouteWithChildren
   '/(app)/login': typeof appLoginRoute
-  '/(app)/register': typeof appRegisterRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/api/login': typeof ApiLoginRoute
+  '/api/register': typeof ApiRegisterRoute
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/(app)/': typeof appIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/(app)/courses/$courseId': typeof appCoursesCourseIdRoute
+  '/api/users/$id': typeof ApiUsersIdRoute
   '/(app)/courses/': typeof appCoursesIndexRoute
 }
 export interface FileRouteTypes {
@@ -91,34 +127,49 @@ export interface FileRouteTypes {
   fullPaths:
     | '/admin'
     | '/login'
-    | '/register'
+    | '/admin/users'
+    | '/api/login'
+    | '/api/register'
+    | '/api/users'
     | '/'
     | '/admin/'
     | '/courses/$courseId'
+    | '/api/users/$id'
     | '/courses'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
-    | '/register'
+    | '/admin/users'
+    | '/api/login'
+    | '/api/register'
+    | '/api/users'
     | '/'
     | '/admin'
     | '/courses/$courseId'
+    | '/api/users/$id'
     | '/courses'
   id:
     | '__root__'
     | '/(app)'
     | '/admin'
     | '/(app)/login'
-    | '/(app)/register'
+    | '/admin/users'
+    | '/api/login'
+    | '/api/register'
+    | '/api/users'
     | '/(app)/'
     | '/admin/'
     | '/(app)/courses/$courseId'
+    | '/api/users/$id'
     | '/(app)/courses/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   appRouteRoute: typeof appRouteRouteWithChildren
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  ApiLoginRoute: typeof ApiLoginRoute
+  ApiRegisterRoute: typeof ApiRegisterRoute
+  ApiUsersRoute: typeof ApiUsersRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -151,12 +202,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appIndexRouteImport
       parentRoute: typeof appRouteRoute
     }
-    '/(app)/register': {
-      id: '/(app)/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof appRegisterRouteImport
-      parentRoute: typeof appRouteRoute
+    '/api/users': {
+      id: '/api/users'
+      path: '/api/users'
+      fullPath: '/api/users'
+      preLoaderRoute: typeof ApiUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/register': {
+      id: '/api/register'
+      path: '/api/register'
+      fullPath: '/api/register'
+      preLoaderRoute: typeof ApiRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/login': {
+      id: '/api/login'
+      path: '/api/login'
+      fullPath: '/api/login'
+      preLoaderRoute: typeof ApiLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/(app)/login': {
       id: '/(app)/login'
@@ -172,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appCoursesIndexRouteImport
       parentRoute: typeof appRouteRoute
     }
+    '/api/users/$id': {
+      id: '/api/users/$id'
+      path: '/$id'
+      fullPath: '/api/users/$id'
+      preLoaderRoute: typeof ApiUsersIdRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
     '/(app)/courses/$courseId': {
       id: '/(app)/courses/$courseId'
       path: '/courses/$courseId'
@@ -184,7 +263,6 @@ declare module '@tanstack/react-router' {
 
 interface appRouteRouteChildren {
   appLoginRoute: typeof appLoginRoute
-  appRegisterRoute: typeof appRegisterRoute
   appIndexRoute: typeof appIndexRoute
   appCoursesCourseIdRoute: typeof appCoursesCourseIdRoute
   appCoursesIndexRoute: typeof appCoursesIndexRoute
@@ -192,7 +270,6 @@ interface appRouteRouteChildren {
 
 const appRouteRouteChildren: appRouteRouteChildren = {
   appLoginRoute: appLoginRoute,
-  appRegisterRoute: appRegisterRoute,
   appIndexRoute: appIndexRoute,
   appCoursesCourseIdRoute: appCoursesCourseIdRoute,
   appCoursesIndexRoute: appCoursesIndexRoute,
@@ -203,10 +280,12 @@ const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
 )
 
 interface AdminRouteRouteChildren {
+  AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -214,9 +293,24 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
   AdminRouteRouteChildren,
 )
 
+interface ApiUsersRouteChildren {
+  ApiUsersIdRoute: typeof ApiUsersIdRoute
+}
+
+const ApiUsersRouteChildren: ApiUsersRouteChildren = {
+  ApiUsersIdRoute: ApiUsersIdRoute,
+}
+
+const ApiUsersRouteWithChildren = ApiUsersRoute._addFileChildren(
+  ApiUsersRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   appRouteRoute: appRouteRouteWithChildren,
   AdminRouteRoute: AdminRouteRouteWithChildren,
+  ApiLoginRoute: ApiLoginRoute,
+  ApiRegisterRoute: ApiRegisterRoute,
+  ApiUsersRoute: ApiUsersRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
