@@ -3823,157 +3823,157 @@ N’hésitez pas à explorer davantage les possibilités offertes par l’écosy
 
 1. Quel est le rôle principal de React ?
 
-   Manipuler directement le DOM pour améliorer les performances
-   Fournir un framework complet façon MVC
-   [//]: # (✔) Construire des interfaces utilisateur via un modèle déclaratif
-   Compiler automatiquement le JavaScript côté serveur
+   [] Manipuler directement le DOM pour améliorer les performances
+   [] Fournir un framework complet façon MVC
+   [] Construire des interfaces utilisateur via un modèle déclaratif
+   [] Compiler automatiquement le JavaScript côté serveur
 
 2. Qu’est-ce que le Virtual DOM ?
 
-   Un DOM stocké dans la base de données
-   [//]: # (✔) Une représentation en mémoire du DOM réel
-   Une version optimisée du DOM fournie par le navigateur
-   Un outil de debugging React
+   [] Un DOM stocké dans la base de données
+   [] Une représentation en mémoire du DOM réel
+   [] Une version optimisée du DOM fournie par le navigateur
+   [] Un outil de debugging React
 
 3. Quel hook est utilisé pour gérer l’état local dans un composant fonctionnel ?
 
-   [//]: # (✔) useState
-   useEffect
-   useMemo
-   useContext
+   [] useState
+   [] useEffect
+   [] useMemo
+   [] useContext
 
 4. Quel hook permet d'exécuter du code après rendu ?
 
-   useState
-   [//]: # (✔) useEffect
-   useRef
-   useCallback
+   [] useState
+   [] useEffect
+   [] useRef
+   [] useCallback
 
 5. Que retourne useState ?
 
-   Une valeur + un reducer
-   [//]: # (✔) Une valeur + une fonction pour la mettre à jour
-   Un tableau de valeurs
-   Une fonction asynchrone
+   [] Une valeur + un reducer
+   [] Une valeur + une fonction pour la mettre à jour
+   [] Un tableau de valeurs
+   [] Une fonction asynchrone
 
 6. Quel est le rôle du cache dans une application web ?
 
-   Stocker les erreurs réseau
-   Accélérer React
-   [//]: # (✔) Éviter de refetch inutilement les mêmes données
-   Empêcher les appels API
+   [] Stocker les erreurs réseau
+   [] Accélérer React
+   [] Éviter de refetch inutilement les mêmes données
+   [] Empêcher les appels API
 
 7. Quel protocole est le plus souvent utilisé pour les requêtes HTTP ?
 
-   [//]: # (✔) HTTPS
-   SSH
-   FTP
-   TCP brut
+   [] HTTPS
+   [] SSH
+   [] FTP
+   [] TCP brut
 
 8. Quelle méthode HTTP est utilisée pour créer une ressource ?
 
-   GET
-   PATCH
-   [//]: # (✔) POST
-   OPTIONS
+   [] GET
+   [] PATCH
+   [] POST
+   [] OPTIONS
 
 9. Dans TanStack Query, comment déclenche-t-on une requête manuelle ?
 
-   Avec useQuery uniquement
-   [//]: # (✔) Avec useMutation
-   Avec useCache
-   Avec startQuery
+   [] Avec useQuery uniquement
+   [] Avec useMutation
+   [] Avec useCache
+   [] Avec startQuery
 
 10. À quoi sert la queryKey dans TanStack Query ?
 
-    [//]: # (✔) Identifier une donnée dans le cache
-    Définir un timeout de requête
-    Déclencher une mutation
-    Configurer axios automatiquement
+   [] Identifier une donnée dans le cache
+   [] Définir un timeout de requête
+   [] Déclencher une mutation
+   [] Configurer axios automatiquement
 
 11. Pourquoi TanStack Query est-il utile ?
 
-    Pour remplacer React
-    [//]: # (✔)  Pour gérer le cache, les requêtes et leurs états
-    Pour compiler le code
-    Pour créer des animations
+   [] Pour remplacer React
+   [] Pour gérer le cache, les requêtes et leurs états
+   [] Pour compiler le code
+   [] Pour créer des animations
 
 12. Quel état n'est PAS géré nativement par TanStack Query ?
 
-    loading
-    error
-    success
-    [//]: # (✔) globalState
+   [] loading
+   [] error
+   [] success
+   [] globalState
 
 13. Quelle fonction permet de réexécuter une requête dans TanStack Query ?
 
-    reload()
-    [//]: # (✔) refetch()
-    refresh()
-    retry()
+   [] reload()
+   [] refetch()
+   [] refresh()
+   [] retry()
 
 14. Comment TanStack Query met-il à jour le cache après une mutation ?
 
-    Automatiquement, toujours
-    Jamais
-    [//]: # (✔) Via invalidate Queries / setQueryData
-    Via un hook "useCacheUpdate"
+   [] Automatiquement, toujours
+   [] Jamais
+   [] Via invalidate Queries / setQueryData
+   [] Via un hook "useCacheUpdate"
 
 15. Quel est un avantage de TanStack Router ?
 
-    [//]: # (✔) Routing basé sur fichier + types générés
-    Nécessite Redux
-    Fonctionne uniquement côté serveur
-    Pas compatible avec React
+   [] Routing basé sur fichier + types générés
+   [] Nécessite Redux
+   [] Fonctionne uniquement côté serveur
+   [] Pas compatible avec React
 
 16. TanStack Start est un framework orienté :
 
-    [//]: # (✔) Full‑stack React + File-based routing
-    Mobile natif
-    Compilation WebAssembly exclusivement
-    Backend Node sans front-end
+   [] Full‑stack React + File-based routing
+   [] Mobile natif
+   [] Compilation WebAssembly exclusivement
+   [] Backend Node sans front-end
 
 17. Que permet TanStack Start en plus du simple routing ?
 
-    Compiler en Rust
-    [//]: # (✔) Server Functions (loader/action), Streaming, SSR
-    Générer des assets 3D
-    Transpiler automatiquement TypeScript
+   [] Compiler en Rust
+   [] Server Functions (loader/action), Streaming, SSR
+   [] Générer des assets 3D
+   [] Transpiler automatiquement TypeScript
 
 18. Comment TanStack Start charge les données d’une route ?
 
-    Avec useEffect
-    Avec fetch classique obligatoire
-    Uniquement côté client
-    [//]: # (✔) Avec des loaders côté serveur
+   [] Avec useEffect
+   [] Avec fetch classique obligatoire
+   [] Uniquement côté client
+   [] Avec des loaders côté serveur
 
 19. Quel format de routage utilise TanStack Start ?
 
-    [//]: # (✔) File-based routing
-    Routing déclaré dans un index.js global
-    Routing impératif comme React Router v3
-    Aucun routing
+   [] File-based routing
+   [] Routing déclaré dans un index.js global
+   [] Routing impératif comme React Router v3
+   [] Aucun routing
 
 20. Quel est l'objectif principal de TanStack Query dans TanStack Start ?
 
-    [//]: # (✔) Gérer les données côté client ET préchargées côté serveur
-    Générer le sitemap automatiquement
-    Gérer les routes
-    Compiler le code TypeScript
+   [] Gérer les données côté client ET préchargées côté serveur
+   [] Générer le sitemap automatiquement
+   [] Gérer les routes
+   [] Compiler le code TypeScript
 
 Bonus-1. Comment TanStack Start optimise le streaming SSR ?
 
-    [//]: # (✔) En combinant les loaders server-side avec un cache hydraté pour envoyer progressivement HTML + données
-    En bloquant tout le rendu jusqu’au chargement complet
-    En s’appuyant uniquement sur React Suspense
-    En envoyant uniquement du JSON
+   [] En combinant les loaders server-side avec un cache hydraté pour envoyer progressivement HTML + données
+   [] En bloquant tout le rendu jusqu’au chargement complet
+   [] En s’appuyant uniquement sur React Suspense
+   [] En envoyant uniquement du JSON
 
 Bonus-2. Lorsqu’un loader (TanStack Start) précharge une donnée utilisée aussi par TanStack Query :
 
-    [//]: # (✔) La donnée est hydratée dans le cache, évitant un refetch côté client
-    Les deux systèmes entrent en conflit
-    Le loader est ignoré
-    La requête est refaite deux fois obligatoirement
+   [] La donnée est hydratée dans le cache, évitant un refetch côté client
+   [] Les deux systèmes entrent en conflit
+   [] Le loader est ignoré
+   [] La requête est refaite deux fois obligatoirement
 
 ## CC de Fin
 
@@ -3985,7 +3985,7 @@ L'examen final consiste à créer l'espace professeur de l'application précéde
   - Création d'un cours
   - Modification d'un cours
   - Suppression d'un cours
-- les pages `/courses` et `/courses/:id` pour tout les utilisateurs non connectés
+- les pages `/courses` et `/courses/:id` pour tous les utilisateurs non connectés
   - Liste des cours
   - Détail d'un cours
 
