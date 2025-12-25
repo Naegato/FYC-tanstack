@@ -6,7 +6,7 @@ import { Spinner } from '@/components/ui/spinner.tsx'
 import { Typography } from '@/components/ui/typography.tsx'
 import { logIn } from '@/lib/utils/auth.ts'
 import { useForm } from '@tanstack/react-form'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 
@@ -32,6 +32,7 @@ const formSchema = z.object({
 
 export const LoginForm = () => {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const loginMutation = useMutation({
     mutationFn: async (payload: { email: string; password: string }) => {
@@ -42,7 +43,9 @@ export const LoginForm = () => {
       })
 
       if (!res.ok) {
-        throw new Error('Erreur serveur')
+        const errorData = await res.json().catch(() => ({}))
+        const errorMessage = errorData.error || 'Erreur lors de la connexion'
+        throw new Error(errorMessage)
       }
 
       const data: { token: string } = await res.json();
@@ -59,14 +62,20 @@ export const LoginForm = () => {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      const data = await loginMutation.mutateAsync({
-        email: value.email,
-        password: value.password,
-      })
-      const sessionRes = await logIn({ data })
+      try {
+        const data = await loginMutation.mutateAsync({
+          email: value.email,
+          password: value.password,
+        })
+        const sessionRes = await logIn({ data })
+        queryClient.invalidateQueries({ queryKey: ['isLoggedIn'] })
+        queryClient.invalidateQueries({ queryKey: ['isAdmin'] })
 
-      if (sessionRes.redirect) {
-        await navigate({ to: sessionRes.redirect })
+        if (sessionRes.redirect) {
+          await navigate({ to: sessionRes.redirect })
+        }
+      } catch (error) {
+        // L'erreur est déjà gérée par la mutation et sera affichée via loginMutation.error
       }
     },
   })
@@ -143,6 +152,11 @@ export const LoginForm = () => {
             }}
           </form.Field>
         </FieldGroup>
+        {loginMutation.error && (
+          <div className="mt-4 p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded">
+            {loginMutation.error.message || 'Erreur lors de la connexion'}
+          </div>
+        )}
       </form>
     </CardContent>
     <CardFooter>
