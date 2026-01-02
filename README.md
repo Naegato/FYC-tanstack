@@ -14,7 +14,9 @@ Quelques briques principales que nous allons rencontrer :
 - TanStack Query : gestion des données côté client, appels API, cache, synchronisation avec le serveur.
 - TanStack Form : gestion des formulaires complexes (validation, erreurs, focus, etc.).
 - TanStack Table : affichage et manipulation de tableaux de données (trier, filtrer, paginer…).
+// A retirer
 - TanStack Store : gestion d’état global côté client (par exemple, l’utilisateur connecté).
+// A retirer
 - TanStack Start : un meta‑framework complet basé sur TanStack Router qui structure une application de A à Z.
 - TanStack DB : une couche de gestion de données avancée, que nous utiliserons côté admin.
 
@@ -131,10 +133,12 @@ Dans cette mini‑plateforme, chaque brique TanStack a un rôle bien défini :
   - Récupérer les listes d’utilisateurs, de messages, de cours.
   - Gérer automatiquement les états : chargement, succès, erreur, cache.
 
+// A retirer
 - TanStack Store
   - Conserver en mémoire l’utilisateur connecté.
   - Mettre à jour l’état global lors du login / logout.
   - Partager cet état entre les différentes parties de l’application (header, admin, etc.).
+// A retirer
 
 - TanStack Table / TanStack DB
   - Afficher les données en tableau côté admin (utilisateurs, messages, cours).
@@ -175,9 +179,11 @@ En d’autres termes, là où TanStack Router est une brique isolée, TanStack S
 
 ### Création du projet :
 
+---
 ```shell
     pnpm create vite
 ```
+---
 
 Option:
 
@@ -187,23 +193,29 @@ Option:
 - Use rolldown-vite (Experimental): No
 - Install with pnpm and start now: Yes
 
+---
 ```shell
     cd tanstack-router
     pnpm install
 ```
+---
 
 #### Lancé le projet :
 
+---
 ```shell
   pnpm dev
 ```
+---
 
 ### Installation de Tanstack Router
 
+---
 ```shell
   pnpm add @tanstack/react-router
   pnpm add @tanstack/react-router-devtools
 ```
+---
 
 #### Code Base Routing
 
@@ -212,33 +224,42 @@ le [File Based Routing](#file-based-routing))
 
 Tout d'abord, nous allons créer un répertoire de composants (components).
 
+---
 ```shell
   mkdir -p src/components/
 ```
+---
 
 Ensuite, nous allons déplacer la landing page par défaut de vite, dans le dossier composant associé:
 
+---
 ```shell
   mkdir -p src/components/counter
   mv src/App.* src/components/counter
 ```
+---
 
 (⚠️ s'assurer que les imports sont bons ⚠️)
 
+---
 ```ts
 import { useState } from 'react'
 import reactLogo from '../../assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 ```
+---
 
 On va ensuite créer une page home par défaut qui nous servira de point d'entrée
 
+---
 ```shell
   mkdir -p src/components/home
   touch src/components/home/client-layout.tsx
 ```
+---
 
+---
 ```tsx
 // src/components/home.tsx
 export const Home = () => {
@@ -247,9 +268,11 @@ export const Home = () => {
   </div>
 }
 ```
+---
 
 Ensuite, on modifie le fichier `src/main.tsx` affin d'ajouter le routeur
 
+---
 ```tsx
 // src/main.tsx
 import { StrictMode } from 'react'
@@ -320,9 +343,11 @@ if (!rootElement.innerHTML) {
   )
 }
 ```
+---
 
 Nous ajoutons un peut de css pour la nav dans `src/index.css`
 
+---
 ```css
 nav {
   display: flex;
@@ -331,6 +356,7 @@ nav {
   gap: 20px;
 }
 ```
+---
 
 ---
 
@@ -341,12 +367,15 @@ routes:
 Ce plugin permet à la création de fichier à certain emplacement, de configuré le fonctionnement de base de ces fichiers
 ainsi que de généré le `routeTree` disponible dans `src/routeTree.gen.ts`
 
+---
 ```shell
   pnpm add -D @tanstack/router-plugin
 ```
+---
 
 On installe ensuite les plugins dans la config vite `vite.config.ts`:
 
+---
 ```tsx
 // ...
 import tanstackRouter from '@tanstack/router-plugin/vite';
@@ -362,6 +391,7 @@ export default defineConfig({
   ]
 })
 ```
+---
 
 Afin de régler les erreurs dans notre console, on crée le dossier `src/routes`, qui contiendra l'ensemble de routes,
 layout, etc.
@@ -369,13 +399,16 @@ Un fichier `__root.tsx` est nécessaire au fonctionnement du routeur, il suffit 
 que la magie du plugin opère (noté qu'il faut que le projet soit lancé), et voila !! le fichier est configuré pour
 fonctionner !
 
+---
 ```shell
   mkdir -p src/routes
   touch src/routes/__root.tsx
 ```
+---
 
 Contenue du fichier :
 
+---
 ```tsx
 import * as React from 'react'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
@@ -393,10 +426,12 @@ function RootComponent() {
   )
 }
 ```
+---
 
 Si l'on revient sur son navigateur, on se rend compte que rien n'as changé, car notre point d'entrée est toujours le
 `src/main.tsx` et n'inclue pas encore notre routeur
 
+---
 ```tsx
 import { StrictMode } from 'react'
 import './index.css'
@@ -423,9 +458,11 @@ if (!rootElement.innerHTML) {
   )
 }
 ```
+---
 
 Quand on retourne dans notre navigateur, on voit enfin afficher notre routeur :
 
+---
 ```html
 
 <div id="root">
@@ -433,10 +470,12 @@ Quand on retourne dans notre navigateur, on voit enfin afficher notre routeur :
     <p>Not Found</p>
 </div>
 ```
+---
 
 Comme dans le [Code Base Routing](#code-base-routing), on crée ensuite une navigation sommaire ainsi que son style.
 On peut aussi ajouter le Devtools afin de debugger si besoin.
 
+---
 ```tsx
 // src/routes/__root.tsx
 import * as React from 'react'
@@ -464,7 +503,9 @@ function RootComponent() {
   )
 }
 ```
+---
 
+---
 ```css
 /* src/index.css */
 nav {
@@ -474,13 +515,17 @@ nav {
   gap: 20px;
 }
 ```
+---
 
 On crée notre home en créant un fichier `src/routes/client-layout.tsx` et on y ajoute notre contenue:
 
+---
 ```shell
   touch src/routes/client-layout.tsx
 ```
+---
 
+---
 ```tsx
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -494,19 +539,23 @@ function RouteComponent() {
   </div>
 }
 ```
+---
 
 On crée ensuite le dossier `src/routes/counter` puis on y déplace les fichiers `App.css` et `App.tsx`, on renomme
 `App.tsx` en `client-layout.tsx`.
 
+---
 ```shell
   mkdir -p src/routes/counter
   mv src/App.css src/routes/counter
   mv src/App.tsx src/routes/counter/client-layout.tsx
 ```
+---
 
 Et voilà ! tout fonctionne parfaitement et on peut… Vous avez sans doute remarqué qu'en bougeant les fichiers de cette
 manière, le plugin n'as pas pu ajouter la configuration nécessaire, il faut donc la rajoutée à la main.
 
+---
 ```tsx
 // src/routes/counter/client-layout.tsx
 import { useState } from 'react'
@@ -520,6 +569,7 @@ export const Route = createFileRoute('/counter/')({
 })
 // ...
 ```
+---
 
 ### Data Loading
 
@@ -533,11 +583,14 @@ liées au `Data Loading`.
 
 Dans un premier temp, nous allons créer une fonction de fetch de donnée:
 
+---
 ```shell
   mkdir -p src/utils
   touch src/utils/open-food-fact.ts
 ```
+---
 
+---
 ```tsx
 // src/utils/open-food-fact.ts
 const apiUrl = 'https://world.openfoodfacts.net/api/v2/search';
@@ -552,12 +605,14 @@ export const fetchOpenFoodFactData = async (pageSize: number = 20) => {
   return data;
 }
 ```
+---
 
 Ensuite, on crée une page dédiée au fetching de donnée et on met a jour la nav.
 On rajoute la propriété `loader` a notre `Route`, cette propriété prend une fonction, possiblement asynchrone, et
 s'occupe d'attendre les données avant de rendre notre page.
 On peut ensuite utiliser ces données grace a la fonction `Route.useLoaderData()`.
 
+---
 ```html
 <!-- // src/routes/__root.tsx -->
 
@@ -570,11 +625,15 @@ On peut ensuite utiliser ces données grace a la fonction `Route.useLoaderData()
 </nav>
 <!-- ... -->
 ```
+---
 
+---
 ```shell
   touch src/routes/data-loading.tsx
 ```
+---
 
+---
 ```tsx
 // src/routes/data-loading.tsx
 
@@ -596,7 +655,9 @@ function RouteComponent() {
 }
 
 ```
+---
 
+---
 ```css
 /* ... */
 pre {
@@ -609,6 +670,7 @@ pre {
   padding: 10px;
 }
 ```
+---
 
 Comme on peut le voir dans le navigateur, la page met un temp avant d'arriver, un temp qui pourrait être très long si la
 récupération de données est trop importante.
@@ -623,6 +685,7 @@ Afin de tester ceci, on va devoir :
 - Changer le code dans la propriété `loader`
 - Adapter notre rendu
 
+---
 ```tsx
 // src/utils/open-food-fact.ts
 import { Await, createFileRoute } from '@tanstack/react-router'
@@ -655,7 +718,9 @@ function RouteComponent() {
   </div>
 }
 ```
+---
 
+---
 ```tsx
 // src/routes/data-loading.tsx
 import { Await, createFileRoute } from '@tanstack/react-router'
@@ -688,6 +753,7 @@ function RouteComponent() {
   </div>
 }
 ```
+---
 
 Faire ceci a plusieurs avantages:
 
@@ -705,6 +771,7 @@ Nous allons implémenter cette feature sur la page `counter`, nous allons demand
 si le compteur est supérieur à `1`. Pour ce faire, on utilise le hook `useBlocker` et sa propriété `shouldBlockFn`.
 `shouldBlockFn` est une fonction qui retourne `true` quand on veut bloquer la navigation.
 
+---
 ```tsx
 // src/routes/counter/client-layout.tsx
 
@@ -729,6 +796,7 @@ function App() {
   // ...
 }
 ```
+---
 
 ### RESSOURCES
 
@@ -751,9 +819,11 @@ function App() {
 
 ### Installation :
 
+---
 ```shell
   pnpm create @tanstack/start@latest
 ```
+---
 
 Options:
 
@@ -764,17 +834,21 @@ Options:
 - Add-ons: `None`
 - Voulez-vous un exemple d'application ? : `None`
 
+---
 ```shell
   cd tanstack-start
   pnpm install
   pnpm approve-builds # Autorisé tous les packets
 ```
+---
 
 ### Lancement du projet
 
+---
 ```shell
   pnpm dev
 ```
+---
 
 ### Structure du projet
 
@@ -793,6 +867,7 @@ notre `src/routeTree.gen.ts` généré automatiquement.
 
 Maintenant que l'on a vu la structure de base, on peut nettoyer le projet pour repartir d'une base neutre.
 
+---
 ```shell
   rm -rf src/components/*
   rm -rf src/routes/*
@@ -800,6 +875,7 @@ Maintenant que l'on a vu la structure de base, on peut nettoyer le projet pour r
   touch src/routes/__root.tsx 
   touch src/routes/index.tsx
 ```
+---
 
 (Pensez à relancer le projet si un problème survient)
 
@@ -807,6 +883,7 @@ Maintenant que l'on a vu la structure de base, on peut nettoyer le projet pour r
 
 Grâce à nos connaissances acquises dans le chapitre 1, on peut créer les routes de notre application.
 
+---
 ```shell
   mkdir -p src/routes/admin
   mkdir -p src/routes/\(app\)/courses/
@@ -820,11 +897,13 @@ Grâce à nos connaissances acquises dans le chapitre 1, on peut créer les rout
   touch src/routes/admin/index.tsx
   touch src/routes/admin/route.tsx
 ```
+---
 
 Les fichiers `route.tsx` permettent de définir des layouts pour les routes enfants. Cela permet de factoriser le code
 et d'avoir une structure claire. Pour le moment, remplaçons le contenu de la fonction `RouteComponent` par un simple
 `Outlet`.
 
+---
 ```tsx
 // src/routes/\(app\)/route.tsx
 // src/routes/admin/route.tsx
@@ -835,17 +914,21 @@ function RouteComponent() {
   return <Outlet/>;
 }
 ```
+---
 
 ### Composants
 
 Nous allons créer quelques composants de base pour notre application.
 
+---
 ```shell
   touch src/components/layout.tsx
   touch src/components/header.tsx
   touch src/components/footer.tsx
 ```
+---
 
+---
 ```tsx
 // src/components/header.tsx
 import React from 'react';
@@ -866,7 +949,9 @@ export const Header: React.FC = () => {
   );
 };
 ```
+---
 
+---
 ```tsx
 // src/components/footer.tsx
 import React from 'react';
@@ -879,7 +964,9 @@ export const Footer: React.FC = () => {
   );
 };
 ```
+---
 
+---
 ```tsx
 // src/components/layout.tsx
 import React from 'react';
@@ -896,9 +983,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   );
 };
 ```
+---
 
 On ajoute ensuite le `layout` dans le fichier `src/routes/(app)/route.tsx`;
 
+---
 ```tsx
 // src/routes/(app)/route.tsx
 
@@ -912,28 +1001,35 @@ function RouteComponent() {
   </Layout>
 }
 ```
+---
 
 On réitère l'opération pour la création d'un admin layout.
 
+---
 ```shell
   touch src/components/admin/layout.tsx
   touch src/components/admin/footer.tsx
   # (etc)
 ```
+---
 
 ### Un peu de style !!
 
 Afin de rendre notre application plus agréable, nous allons ajouter un peu de style avec Shadcn UI et Tailwind CSS.
 
+---
 ```shell
   pnpm dlx shadcn@latest init
 ```
+---
 
 Nous allons ensuite ajouter **tous*** les composants disponibles.
 
+---
 ```shell
   pnpm dlx shadcn@latest add --all
 ```
+---
 
 \* Il est possible que certains composants ne soient pas compatibles avec Tanstack Start, dans ce cas, vous pouvez les
 ignorer.  
@@ -942,10 +1038,13 @@ la réalité, il ne faut installer que les composants dont on a besoin.
 
 Afin d'harmoniser notre affichage, nous allons créer le composant `Typography` (`src/components/ui/typography.tsx`).
 
+---
 ```shell
   touch src/components/ui/typography.tsx
 ```
+---
 
+---
 ```tsx
 import { cn } from '@/lib/utils.ts'
 import { Slot } from '@radix-ui/react-slot'
@@ -1260,11 +1359,13 @@ const TypographyMuted: FC<TypographyProps> = ({
   )
 }
 ```
+---
 
 #### Composants Modifier / Créer
 
 Nous avons créé et modifié plusieurs composants afin d'avoir un style plus agréable pour la suite du cours.
 
+---
 ```tsx
 // src/components/admin/footer.tsx
 import { Typography } from '@/components/ui/typography.tsx'
@@ -1278,7 +1379,9 @@ export const Footer: React.FC = () => {
   );
 };
 ```
+---
 
+---
 ```tsx
 // src/components/admin/layout.tsx
 import { Footer } from '@/components/admin/footer'
@@ -1341,7 +1444,9 @@ export const AdminLayout: FC<{
   )
 }
 ```
+---
 
+---
 ```tsx
 // src/components/footer.tsx
 import { Typography } from '@/components/ui/typography.tsx'
@@ -1355,7 +1460,9 @@ export const Footer: React.FC = () => {
   );
 };
 ```
+---
 
+---
 ```tsx
 // src/components/header.tsx
 import { Button } from '@/components/ui/button.tsx'
@@ -1425,7 +1532,9 @@ export const Header: FC = () => {
   </header>;
 }
 ```
+---
 
+---
 ```tsx
 // src/components/layout.tsx
 import { Header } from '@/components/header'
@@ -1444,21 +1553,27 @@ export const Layout: FC<{
   )
 }
 ```
+---
 
+---
 ```tsx
 // src/components/form/login.tsx
 export const LoginForm = () => {
   return null;
 }
 ```
+---
 
+---
 ```tsx
 // src/components/form/register.tsx
 export const RegisterForm = () => {
   return null;
 }
 ```
+---
 
+---
 ```tsx
 // src/routes/(app)/index.tsx
 import { Typography } from '@/components/ui/typography'
@@ -1476,7 +1591,9 @@ function RouteComponent() {
   </div>
 }
 ```
+---
 
+---
 ```tsx
 // src/routes/(app)/login.tsx
 import { RegisterForm } from '@/components/form/register.tsx'
@@ -1510,7 +1627,9 @@ function RouteComponent() {
   )
 }
 ```
+---
 
+---
 ```tsx
 // src/routes/admin/index.tsx
 import { Typography } from '@/components/ui/typography'
@@ -1528,7 +1647,9 @@ function RouteComponent() {
   </div>
 }
 ```
+---
 
+---
 ```tsx
 // src/routes/admin/route.tsx
 import { AdminLayout } from '@/components/admin/layout.tsx'
@@ -1544,10 +1665,12 @@ function RouteComponent() {
   </AdminLayout>
 }
 ```
+---
 
 Nous avons aussi ajouté dans le fichier `src/routes/__root.tsx` un `notFounComponent` afin de gérer les routes non
 définies.
 
+---
 ```tsx
 // src/routes/__root.tsx
 export const Route = createRootRoute({
@@ -1557,6 +1680,7 @@ export const Route = createRootRoute({
   ),
 })
 ```
+---
 
 ### RESSOURCES
 
@@ -1569,12 +1693,16 @@ export const Route = createRootRoute({
 
 ## Chapitre 3 – Formulaires d'authentification
 
+### Introduction
+
 Afin de se connection en tant qu'admin a notre platforme, nous allons créer un formulaire d'authentification et d'inscription.
 Pour ce faire, nous allons utiliser `@tanstack/react-form` et `zod` pour la validation des données.
 
+---
 ```shell
   pnpm add @tanstack/react-form zod
 ```
+---
 
 Tanstack Form est une librairie de gestion de formulaire très puissante et flexible. Elle permet de gérer l'état des
 formulaires, la validation, et bien plus encore. Tanstack Form supporte nativement toutes les librairies qui suivent
@@ -1591,6 +1719,7 @@ Exemples non exhaustifs :
 
 tout d'abord on va pourvoir créer notre schema de validation avec Zod.
 
+---
 ```tsx
 // src/components/form/login.tsx
 import { z } from 'zod';
@@ -1615,15 +1744,18 @@ const formSchema = z.object({
   ),
 })
 ```
+---
 
 Attention cependant ! Certaines règles de validation peuvent ne pas fonctionner correctement avec
 `@tanstack/react-form`, comme par exemple `default()`, ce qui peut poser l'erreur suivante :
 
 ```
+---
 ZodObject<...>
 is not assignable to type
 FormValidateOrFn<...>
 ```
+---
 
 Le shéma précédemment défini peut donc être utilisé dans notre formulaire de connexion.
 Le formulaire est géré par le hook `useForm`, qui prend en paramètre un objet de configuration.
@@ -1632,6 +1764,7 @@ Les paramètres importants sont :
 - `validators` : Les règles de validation du formulaire.
 - `onSubmit` : La fonction à appeler lors de la soumission du formulaire.
 
+---
 ```tsx
 // src/components/form/login.tsx
 
@@ -1652,6 +1785,7 @@ export const LoginForm = () => {
   // ...
 }
 ```
+---
 
 Afin d'utiliser le formulaire, on va devoir créer les champs de formulaire. On utilise pour ceci les composants de Shadcn UI.
 Chaque champ est géré par le composant `form.Field`, qui prend en paramètre :
@@ -1661,6 +1795,7 @@ Chaque champ est géré par le composant `form.Field`, qui prend en paramètre 
 On utilise donc la fonction enfante pour générer notre champ, il faut faire attention à bien utiliser les propriétés
 du paramètre et ne pas directement utilisé `form`.
 
+---
 ```tsx
 // src/components/form/login.tsx
 
@@ -1703,9 +1838,11 @@ return <>
   {/* ... */}
 </>
 ```
+---
 
 Composant complet:
 
+---
 ```tsx
 // src/components/form/login.tsx
 
@@ -1842,9 +1979,11 @@ export const LoginForm = () => {
   </Card>
 }
 ```
+---
 
 On utilise le même principe pour le formulaire d'inscription :
 
+---
 ```tsx
 // src/components/form/register.tsx
 
@@ -2013,22 +2152,28 @@ export const RegisterForm = () => {
   </Card>
 }
 ```
+---
 
 ### Base de donnée
 
 Nous allons utiliser `prisma` avec une base de donnée `PostgreSQL` locale pour stocker les utilisateurs.
 
+---
 ```shell
   pnpm add prisma @prisma/client
   npx prisma init
 ```
+---
 
 Nous allons créer un docker compose pour lancer une base de donnée `PostgreSQL` locale.
 
+---
 ```shell
   touch compose.yml
 ```
+---
 
+---
 ```yaml
 services:
   db:
@@ -2045,24 +2190,30 @@ services:
 volumes:
   db_data:
 ```
+---
 
 On change ensuite la variable d'environnement `DATABASE_URL` dans le fichier `.env`
 
+---
 ```env
 DATABASE_URL=postgresql://username:password@localhost:5432/default_database?schema=public
 ```
+---
 
 On s'assure que l'url est bien définie dans `prisma/schema.prisma`
 
+---
 ```prisma
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 ```
+---
 
 On peut ensuite définir notre modèle `User` dans le fichier `prisma/schema.prisma`
 
+---
 ```prisma
 enum Role {
   ADMIN
@@ -2079,15 +2230,19 @@ model User {
   @@map("user")
 }
 ```
+---
 
 On peut ensuite lancer la migration pour créer la table `User` dans la base de donnée.
 
+---
 ```shell
   npx prisma migrate dev --name init
 ```
+---
 
 On crée ensuite un fichier `src/lib/prisma.ts` pour initialiser le client Prisma.
 
+---
 ```tsx
 import "dotenv/config";
 import { PrismaPg } from '@prisma/adapter-pg'
@@ -2103,6 +2258,7 @@ const prisma = new PrismaClient({
 
 export { prisma }
 ```
+---
 
 ### API d'authentification
 
@@ -2110,6 +2266,7 @@ Nous allons créer une API d'authentification pour gérer la connexion et l'insc
 connexion ira vérifier qu'un utilisateur existe bien dans la base de donnée. Ensuite, on compare avec `argon2` le mot de
 passe. Une fois finis, on génère un JWT que l'on renvoie au client.
 
+---
 ```shell
   mkdir src/routes/api
   touch src/routes/api/login.tsx
@@ -2117,13 +2274,17 @@ passe. Une fois finis, on génère un JWT que l'on renvoie au client.
   # si besoin
   # pnpm approve-builds
 ```
+---
 
 On rajoute ensuite une varieble d'environnement pour la clé secrète JWT dans le fichier `.env`
 
+---
 ```env
 JWT_SECRET=your_jwt_secret_key
 ```
+---
 
+---
 ```tsx
 import { prisma } from '@/lib/prisma.ts'
 import { createFileRoute } from '@tanstack/react-router'
@@ -2219,10 +2380,12 @@ export const Route = createFileRoute('/api/login')({
 })
 
 ```
+---
 
 On utilise le même principe pour l'endpoint d'inscription. On hash le mot de passe avec `argon2` avant de le stocker dans la base de donnée.
 NOTE: nous avons ajouté un délai artificiel de 5 secondes pour simuler une charge serveur et éviter les attaques par force brute.
 
+---
 ```tsx
 // src/routes/api/register.tsx
 
@@ -2319,22 +2482,26 @@ export const Route = createFileRoute('/api/register')({
   },
 })
 ```
+---
 
 ### Intégration des formulaires avec l'API
 
 Nous allons maintenant intégrer les formulaires de connexion et d'inscription avec les endpoints que nous venons de créer.
 Pour ce faire, nous utiliserons `@tanstack/react-query` pour gérer les requêtes asynchrones.
 
+---
 ```shell
   pnpm add @tanstack/react-query @tanstack/react-query-devtools
   pnpm add -D @tanstack/eslint-plugin-query
 ```
+---
 
 Tanstack Query fournit un hook `useMutation` pour gérer les mutations de données, comme les requêtes POST. Ce hook
 permet d'avoir des `states` comme `isLoading`, `isError`, et `data` pour gérer l'état de la requête.
 
 On s'occupe donc de créer notre premiere mutation pour l'inscription.
 
+---
 ```tsx
 // src/components/form/register.tsx
 
@@ -2356,9 +2523,11 @@ const registerMutation = useMutation({
   },
 })
 ```
+---
 
 On peut ensuite utiliser cette mutation dans le formulaire d'inscription. On appelle la mutation dans la fonction `onSubmit` du formulaire.
 
+---
 ```tsx
 // src/components/form/register.tsx
 
@@ -2376,9 +2545,11 @@ On peut ensuite utiliser cette mutation dans le formulaire d'inscription. On app
   })
 // ...
 ```
+---
 
 On empêche la re-soumission du formulaire en utilisant le state de notre mutation.
 
+---
 ```tsx
 // src/components/form/register.tsx
 
@@ -2398,9 +2569,11 @@ import { Spinner } from '@/components/ui/spinner.tsx'
   </> }
 // ...
 ```
+---
 
 On utilise le même principe pour le formulaire de connexion.
 
+---
 ```tsx
 // src/components/form/login.tsx
 
@@ -2562,6 +2735,7 @@ export const LoginForm = () => {
   </Card>
 }
 ```
+---
 
 ### Les Sessions
 
@@ -2579,10 +2753,13 @@ On peut donc utiliser ce hook dans notre application pour gérer les sessions ut
 
 On ajoute d'abord une variable d'environnement pour la clé secrète de session dans le fichier `.env`
 
+---
 ```env
 SESSION_SECRET=your_session_secret_key_at_least_32_characters_long
 ```
+---
 
+---
 ```typescript
 // src/lib/utils/session.ts
 import { useSession } from '@tanstack/react-start/server'
@@ -2612,10 +2789,12 @@ export function useAppSession() {
   })
 }
 ```
+---
 
 On crée ensuite des hooks pour gérer la connexion et l'inscription en utilisant les sessions. /!\ Ces hooks doivent être utilisés uniquement dans le
 contexte serveur, par conséquent, on ne peut pas les créer dans le fichier `src/lib/utils/session.ts`
 
+---
 ```typescript
 // src/lib/utils/auth.ts
 import { useAppSession } from '@/lib/utils/session.ts'
@@ -2644,9 +2823,11 @@ export const isLoggedIn = createServerFn({ method: 'GET' }).handler(async () => 
   return !!session.data.token
 })
 ```
+---
 
 On peut ensuite utiliser ces hooks dans nos formulaires pour gérer la connexion et l'inscription.
 
+---
 ```tsx
 // src/components/form/login.tsx
 import { logIn } from '@/lib/utils/auth.ts'
@@ -2664,7 +2845,9 @@ import { logIn } from '@/lib/utils/auth.ts'
     }
 // ...
 ```
+---
 
+---
 ```tsx
 // src/components/form/register.tsx
 import { logIn } from '@/lib/utils/auth.ts'
@@ -2683,6 +2866,7 @@ import { logIn } from '@/lib/utils/auth.ts'
     }
 // ...
 ```
+---
 
 ### Protection des routes
 
@@ -2691,6 +2875,7 @@ Pour ce faire, nous allons créer un middleware d'authentification qui vérifier
 Ce middleware ne sera appliqué qu'à l'initialisation des routes, il nous faut donc une solution pour protéger les routes lors de la navigation côté client.
 Nous allons donc créer une fonction `AuthBeforeLoad` qui sera appelée avant le chargement de chaque route protégée.
 
+---
 ```tsx
 // src/middlewares/auth.ts
 import { isLoggedIn } from '@/lib/utils/auth.ts'
@@ -2720,9 +2905,11 @@ export const AuthBeforeLoad = async ({navigate}) => {
   }
 }
 ```
+---
 
 On peut ensuite utiliser ce middleware et cette fonction dans notre route layout admin.
 
+---
 ```tsx
 // src/routes/admin/route.tsx
 import { AdminLayout } from '@/components/admin/layout.tsx'
@@ -2743,6 +2930,7 @@ function RouteComponent() {
   </AdminLayout>
 }
 ```
+---
 
 ### Ressources
 - Tanstack Form
@@ -2761,10 +2949,13 @@ function RouteComponent() {
 Afin de continuer dans notre lancée, nous allons implémenter une gestion des utilisateurs complète avec création,
 lecture, mise à jour et suppression (CRUD). Pour ce faire, on commence par les endpoints API.
 
+---
 ```shell
   touch src/routes/api/users.tsx
 ```
+---
 
+---
 ```tsx
 // src/routes/api/users.tsx
 import { prisma } from '@/lib/prisma.ts'
@@ -2913,13 +3104,17 @@ export const Route = createFileRoute('/api/users')({
   },
 })
 ```
+---
 
 On fait de même pour les endpoints de gestion d'un utilisateur précis.
 
+---
 ```shell
   touch src/routes/api/users.$id.ts
 ```
+---
 
+---
 ```tsx
 // src/routes/api/users.$id.tsx
 import { prisma } from '@/lib/prisma.ts'
@@ -3019,15 +3214,18 @@ export const Route = createFileRoute('/api/users/$id')({
   }
 })
 ```
+---
 
 La première partie de la gestion des utilisateurs est maintenant terminée. Nous avons mis en place les endpoints API pour
 gérer les utilisateurs. Il nous reste maintenant à créer l'interface utilisateur pour interagir avec ces endpoints. On
 commence par la liste des utilisateurs. On s'inspire du composant Table de `shadcn/ui` pour afficher les données, et on
 utilise `Tanstack Table` pour la gestion des colonnes, du tri et de la pagination.
 
+---
 ```shell
   pnpm add @tanstack/react-table
 ```
+---
 
 La gestion de la table passe par le hook `useReactTable` de `Tanstack Table`. On initialise la table avec les colonnes 
 et les données. On gère ensuite la pagination et le tri avec les options `manualPagination` et `onPaginationChange`. Il
@@ -3049,6 +3247,7 @@ et `getFilteredRowModel` pour gérer le tri et le filtrage côté client. Il est
 rendre les cellules et les en-têtes de la table. On utilise aussi les helper de la table pour désactiver les boutons
 de pagination lorsque l'on ne peut pas aller plus loin.
 
+---
 ```tsx
 // src/components/admin/users.tsx
 import { Button } from '@/components/ui/button.tsx'
@@ -3197,14 +3396,17 @@ function RouteComponent() {
   </div>
 }
 ```
+---
 
 Nous allons passer à la suite de l'implémentation en récupérant les données depuis notre endpoint API. Pour ce faire,
 nous allons utiliser `Tanstack DB` pour gérer la collection de données et les requêtes. Il est important de noter que
 `Tanstack DB` a besoin d'un adapter pour fonctionner avec le client query, nous utilisons ici `Tanstack Query` comme adapter.
 
+---
 ```shell
   pnpm add @tanstack/db @tanstack/react-db @tanstack/query-db-collection @tanstack/query-core
 ```
+---
 
 Premièrement, on crée notre collection d'utilisateurs en utilisant `Query Collection` de `Tanstack DB`. Dans notre exemple,
 on utilise le `syncMode: 'on-demand'` ce qui permet de gérer à la main les paramètres de la requête. On parse les options
@@ -3212,6 +3414,7 @@ de chargement avec `parseLoadSubsetOptions` pour récupérer les options de pagi
 de simplicité, nous n'allons pas voir le filtrage des données. On construit ensuite les paramètres de la requête en
 fonction de ces options et on effectue la requête fetch vers notre endpoint API. 
 
+---
 ```tsx
 // src/lib/query.ts
 import { createCollection, parseLoadSubsetOptions } from '@tanstack/db'
@@ -3262,6 +3465,7 @@ export const usersCollection = createCollection(
   })
 )
 ```
+---
 
 On peut ensuite utiliser cette collection dans notre composant de gestion des utilisateurs. On initialise la collection
 avec les options de pagination et de tri. On utilise le hook `useLiveQuery` pour récupérer les données en temps réel. On
@@ -3270,6 +3474,7 @@ met à jour les options de la collection lorsque la pagination ou le tri change.
 
 On ajoute donc la récupération des données dans notre composant de gestion des utilisateurs.
 
+---
 ```tsx
 // src/components/admin/users.tsx
 import { usersCollection } from '@/lib/query.ts'
@@ -3332,6 +3537,7 @@ import { useLiveQuery } from '@tanstack/react-db/react'
     {/* ... */}
   </div>
 ```
+---
 
 Comme on peut le voir, la récupération des données est très simple avec `Tanstack DB`. Il est possible d'ajouter des 
 filtres, des recherches et d'autres fonctionnalités très facilement en utilisant les options de la collection, mais, on
@@ -3340,6 +3546,7 @@ utilisateurs dans notre composant. Nous allons donc stocker cette information da
 la requête fetch dans la collection. Nous allons ensuite récupérer cette information dans notre composant pour gérer
 la pagination.
 
+---
 ```tsx
 // src/lib/query.ts
 
@@ -3349,7 +3556,9 @@ la pagination.
   return data.items;
 // ...
 ```
+---
 
+---
 ```tsx
 // src/components/admin/users.tsx
 import { useQuery } from '@tanstack/react-query'
@@ -3379,6 +3588,7 @@ import { useQuery } from '@tanstack/react-query'
     rowCount: totalCount.data || 0,
   })
 ```
+---
 /!\ Note : Dans notre exemple, nous effectuons la requête après avoir déjà récupéré les données dans la collection.
 Cela peut dans certain cas nous eviter de refaire une requête si les données sont déjà en cache. Cependant, dans un cas réel,
 il serait préférable de gérer cela différemment pour éviter une requête redondante.
@@ -3386,6 +3596,7 @@ il serait préférable de gérer cela différemment pour éviter une requête re
 
 /!\ Important : Il semble qu'à ce jour (@tanstack/react-db@0.1.59) le hook `useLiveQuery` génère des erreurs de rendu
 côté serveur, il faut donc mettre l'option `ssr: false` pour éviter ces erreurs.
+---
 ```tsx
 // src/components/admin/users.tsx
 export const Route = createFileRoute('/admin/users')({
@@ -3393,6 +3604,7 @@ export const Route = createFileRoute('/admin/users')({
   ssr: false,
 })
 ```
+---
 
 Nous passons maintenant à la suite de l'implémentation en ajoutant la suppression des utilisateurs. Nous allons ajouter
 un bouton de suppression qui apparaît lorsque l'on sélectionne un ou plusieurs utilisateurs dans la table. On utilise
@@ -3403,6 +3615,7 @@ la collection restaure les données précédentes, cela permet d'avoir une inter
 
 Tout d'abord, on ajoute un bouton de suppression dans notre composant.
 
+---
 ```tsx
 // src/components/admin/users.tsx
 
@@ -3437,10 +3650,12 @@ Tout d'abord, on ajoute un bouton de suppression dans notre composant.
   </div>
 // ...
 ```
+---
 
 Afin de pouvoir voir l'effet `Optimistic` en action, il est préférable d'ajouter un délai artificiel ainsi qu'une erreur
 dans notre endpoint API de suppression. Ensuite, on ajoute la logique de suppression dans notre collection.
 
+---
 ```tsx
 // src/routes/api/users.$id.tsx
 // ...
@@ -3462,7 +3677,9 @@ export const Route = createFileRoute('/api/users/$id')({
   }
 })
 ```
+---
 
+---
 ```tsx
 // src/lib/query.ts
 // ...
@@ -3487,6 +3704,7 @@ export const usersCollection = createCollection(
   })
 )
 ```
+---
 
 On peut maintenant tester la suppression des utilisateurs dans notre interface. Lorsqu'on sélectionne un ou plusieurs 
 utilisateurs et qu'on clique sur le bouton de suppression, les utilisateurs sont supprimés de la table immédiatement, après
@@ -3502,13 +3720,16 @@ un `toast` de `sonner` étant données que le `Toaster` de `shadcn/ui` est dépr
 est important d'invalidé le cache de la query, pour ce faire, on utilise le `queryClient` que nous avons initialisé
 dans `src/routes/__root.tsx`, pour plus de lisibilité, on le déplace dans `src/lib/react-query.ts`.
 
+---
 ```shell
   touch src/lib/react-query.ts
   touch src/components/modal/add-user.tsx
 ```
+---
 
 On ajoute le `Toaster` et on importe le client dans notre `__root.tsx`.
 
+---
 ```tsx
 // src/routes/__root.tsx
 import { queryClient } from '@/lib/react-query'
@@ -3531,15 +3752,19 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   )
 }
 ```
+---
 
+---
 ```tsx
 // src/lib/react-query.ts
 import { QueryClient } from '@tanstack/react-query'
 export const queryClient = new QueryClient();
 ```
+---
 
 Ceci fait, on crée le composant de la fenêtre modale pour ajouter un utilisateur.
 
+---
 ```tsx
 // src/components/modal/add-user.tsx
 
@@ -3729,9 +3954,11 @@ export const AddUser: FC<{
   )
 }
 ```
+---
 
 On ajuste ensuite notre composant de gestion des utilisateurs pour inclure ce nouveau composant de création.
 
+---
 ```tsx
 // src/components/admin/users.tsx
 import { AddUser } from '@/components/modal/add-user.tsx'
@@ -3764,12 +3991,14 @@ return (
     </div>
 )
 ```
+---
 
 Utilisé la méthode `insert` de la collection permet d'ajouter immédiatement le nouvel utilisateur à la table, cependant 
 il faut quand même implémenter la fonction `onInsert` dans la collection pour que cela fonctionne correctement. Sachant
 que nous avons déja notre entité, nous pouvons simplement dire "il faut récupérer les données à nouveau" en retournant 
 `{ refetch: true }`.
 
+---
 ```tsx
 // src/lib/query.ts
 // ...
@@ -3783,6 +4012,7 @@ export const usersCollection = createCollection(
   })
 )
 ```
+---
 
 
 ### Ressources
